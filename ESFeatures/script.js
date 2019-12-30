@@ -2,8 +2,9 @@
 
 
 /*****************************Arrow/Fat arrow functions Functions******************************* */
-//Scenario 1 , when we use arrow func in the callbacks it gives the reference of outer env
-
+/* Scenario 1 , when we use arrow func in the callbacks it gives the reference of outer env
+ * Arrow functions doesn't have their own scope, it points to outer environment.
+*/
 document.addEventListener('click',function(){
   console.log(this); //output document object
 })
@@ -64,7 +65,7 @@ function sum1(a ,b=bParam ,c = cParam()){
 
 console.log(sum1(1));
 
-/***********************Default Params *******************/
+/***********************ES6 Classes *******************/
 
 class parentClass{
   constructor(){
@@ -84,15 +85,15 @@ class childClass extends parentClass{
 }
 
 var childObj = new childClass();
-childObj.print();
+childObj.print(); //shekhar Engineer
 
 //Example - Static keyword is the class based attribute not object based
 
-// class Abc {
-//   static count = function(){return 10};
-// }
+class Abc {
+  static count = function(){return 10};
+}
 
-// console.log(Abc.count());
+console.log(Abc.count());
 
 /***********************************Symbols*********************************/
 
@@ -163,7 +164,7 @@ e.g. var num = 'NaN';
   let fn = function (){
 
   }
-  console.log(fn.name); //fn , it returns the var name in case of anonymous functions
+  console.log(fn.name); //fn , it returns the var 'name' in case of anonymous functions
 
 */
 
@@ -228,9 +229,10 @@ chainPromise.then(function(data){
 });
 
 
-// else.g. 4 Promise.all implementation
+/* else.g. 4 Promise.all implementation
+* If all promises get resolved then Promise.all retrieve values.
+*/
 var prom1 = new Promise((resolve,reject) => {
-    throw 'some error';
     resolve('prom1 return value');
 });
 var prom2 = new Promise((resolve,reject) => {
@@ -243,7 +245,7 @@ var prom3 = new Promise((resolve,reject) => {
 Promise.all([prom1,prom2,prom3]).then(function(data){
   console.log('"Promise All resolved - ',data);
 },function(error){
-  console.log('"Promise All error - ',error);
+  console.log('"Promise All error - ',error.message);
 
 })
 
@@ -298,21 +300,35 @@ console.log('expandedArray',itr1.next()); // { value: 1, done: false }
 console.log('expandedArray',itr1.next()); // { value: 2, done: false }
 console.log('expandedArray',itr1.next()); // { value: 3, done: false }
 
-// e.g 3 throwing error in generator in try catch block
+
+//e.g.4 - multipe yield with passing values to yield result using next(value)
+
+function* generatorPassValue(){
+	var one = yield 1;
+  var two = yield 2;
+  return 3;
+}
+
+var fn = gen();
+fn.next(); // first next() doesnt pass a value
+fn.next('oneValue'); //second next call onwards value is getting passed to yield returns --> one = oneValue
+fn.next('twoValue'); // two = twoValue
+
+// e.g 5 throwing error in generator in try catch block
 
 function* checkError(){
   try {
     yield 1;
     yield 2;
   } catch (error) {
-    console.log(error);// custom error
+    console.log(error);// output  - custom error
   }
 }
 
 var errorObj = checkError();
-console.log('errorObj',errorObj.next());
-console.log('errorObj',errorObj.throw('custom error'));
-console.log('errorObj',errorObj.next());
+console.log('errorObj',errorObj.next()); //errorObj {value: 1, done: false}
+console.log('errorObj',errorObj.throw('custom error')); // errorObj {value: undefined, done: true}
+console.log('errorObj',errorObj.next()); //{value: undefined, done: true}
 
 
 /***********************Map and WeakMaps************************** */
@@ -331,7 +347,7 @@ console.log('map example',employee.get(employee2));
 /***********************Sets and Weaksets************************** */
 
 //A Set is a collection of values, where each value may occur only once.
-// Weaksets are the sets which only takes objects not any other type
+// Weaksets are the sets which only takes objects not any other type like array.
 let set = new Set();
 
 let john = { name: "John" };

@@ -1,11 +1,25 @@
 "use strict";
 
-/*-----------------------Implementing Call & Apply---------------------------*/
+/*-----------------------Implementing Bind---------------------------*/
 
-// Function.prototype.myApply = function(thirdObject,args){
-// this = thirdObject;
+Function.prototype.customBind = function(thirdObject){
+  let fn = this;
+  var args = Array.prototype.slice(arguments,1);
+  return function(){
+    return fn.call(thirdObject,args)
+  }
+}
 
-// }
+var foo = {
+  x: 3
+}
+
+function bar (){
+  console.log(this.x)
+}
+
+var boundFunc = bar.customBind(foo)
+boundFunc() // 3
 
 
 /*****************Swap 2 numbers*********************************** */
@@ -49,15 +63,13 @@ function palindrome(str) {
 // Scenario 1 using recursion
 
  function factorialize(num) {
-  if (num < 0)
-        return -1;
-  else if (num == 0)
+  if (num == 0)
       return 1;
   else {
       return (num * factorialize(num - 1));
   }
 }
-factorialize(5);
+factorialize(5); // output - 120
 
 
 // Scenario 1 using for loop
@@ -73,7 +85,7 @@ function factorialize(num) {
 }
 console.log(factorialize(5));
 
-/*****************************Longest word in String**************************/
+/*****************************Longest word in String (sentence) **************************/
 
 //Scenario 1 - converting into array and using for loop.
 function longestWord(str){
@@ -87,8 +99,8 @@ function longestWord(str){
   return longestWord;
 }
 
-var lw = longestWord('this is the longest wordsss');
-console.log(lw);
+var lw = longestWord('this is the longest words');
+console.log(lw); //output - longest
 
 
 //Scenario 2 - using array sort.
@@ -208,3 +220,17 @@ function removeDups(names) {
 }
 
 console.log(removeDups(names)); // // 'John', 'Paul', 'George', 'Ringo'
+
+
+/********************Reverse Array Optimized*************************/
+
+function reverse(arr){
+  var len = Math.floor(arr.length/2);
+    for(var i=0;i<len;i++){
+        var swap = arr[i];
+        arr[i]=arr[arr.length-1-i];
+        arr[arr.length-1-i]=swap;
+      }
+  return arr;
+  }
+  console.log('reverse',reverse([1,2,3,4,5])); //output [5,4,3,2,1]

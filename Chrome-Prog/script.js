@@ -1,19 +1,33 @@
 "use strict";
 
 
+/* Reverse Array (implementation) using recursion */
+
 var a = [1,2,3,4,5];
-function sortRec(arr,newarray=[]){
+function reverse(arr,newarray=[]){
 	if(arr.length==0){
 		return newarray;
     }else{
 		newarray.push(arr.pop())
-		return sortRec(arr,newarray);
+		return reverse(arr,newarray);
     }
 
 }
-var result = sortRec(a);
-console.log(result,'aaaaaaaa');
-var abv = 1;
+var result = reverse(a);
+console.log('reverse of array-',result);
+
+/* Optimized reverse array */
+
+function reverse(arr){
+	var len = Math.floor(arr.length/2);
+		for(var i=0;i<len;i++){
+			var swap = arr[i];
+			arr[i]=arr[arr.length-1-i];
+			arr[arr.length-1-i]=swap;
+		}
+	return arr;
+	}
+console.log('reverse optimized-',reverse([3,4,2,5,6]));
 
 
 /***********************************************************/
@@ -44,6 +58,9 @@ a();
 a();
 console.log('result',a());
 
+/***********************************************************/
+
+/* Arrow function does not bind this on their own, instead take from parent scope */
 name = 'tanoy';
 var obj = {
 	name:'shekhar',
@@ -53,10 +70,16 @@ var obj = {
 
 }
 obj.print();
+
 /***********************************************************/
 
-
-var a= [{card:'visa',name:'shekhar'},{card:'mastercard',name:'tanoy'},{card:'visa',name:'nitish'},{card:'mastercard',name:'saket'}];
+/* GroupBy implementation of array of objects */
+var a= [
+	{card:'visa',name:'shekhar'},
+	{card:'mastercard',name:'tanoy'},
+	{card:'visa',name:'nitish'},
+	{card:'mastercard',name:'saket'}
+];
 
 function group(arr,key){
 	return arr.reduce((output,item) => {
@@ -114,6 +137,8 @@ obj.print();
 
 /***********************************************************/
 
+/* which kid will get the last toy */
+
 function abc(kids,toys,s){
 	var result = 0;
 	var isSecodLoop = false;
@@ -130,6 +155,8 @@ function abc(kids,toys,s){
 abc(3,5,2);
 
 /***********************************************************/
+
+/* Input [1,2,3,4]  output 10, adding first and last number and removing from array */
 
 function abcd(arr=[3,2,6,5],result=0){
 	if(arr.length==2){

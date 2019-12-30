@@ -18,7 +18,7 @@
     once its execution context is removed,  but in closures we can use them.
 */
 //  var sayHi = greet('Hello');
-//  sayHi('Ram');
+//  sayHi('Ram'); // Hello Ram
 
 //  example 2
 
@@ -33,26 +33,26 @@ function buildArray(){
   return arr;
 }
 
-//to make loop available in the execution context we use iife and create its
+// to make loop available in the execution context we use iife and create its
 // own execution context
-// function buildArray2(){
-//   var arr = [];
-//   for (var i = 0; i < 3; i++) {
-//     arr.push(function(j){
-//         return function(){
-//           console.log(j);
-//         }
-//       }(i)
-//       );
-//   }
-//   return arr;
-// }
-// var fs = buildArray();
-// var fs2 = buildArray2();
+function buildArray2(){
+  var arr = [];
+  for (var i = 0; i < 3; i++) {
+    arr.push(function(j){
+        return function(){
+          console.log(j);
+        }
+      }(i)
+      );
+  }
+  return arr;
+}
+var fs = buildArray();
+var fs2 = buildArray2();
 
 /*
   output - 3 in all the 3 cases because the functions above are initialized
-  only not invoked and when they are invoked the value of 1 = 3
+  only not invoked and when they are invoked the value of i = 3
   if we use let instead of var we get the intended output - 0,1,2
   let is block scoped so in every loop it reinitialized and intact in the scope
   hence we will get the value of i in every loop intact in the exe. context.
@@ -84,7 +84,7 @@ var createSingletonObject = (function (){
 
 var instance1 = createSingletonObject.getInstance();
 var instance2 = createSingletonObject.getInstance();
-console.log((instance1===instance2));
+console.log((instance1===instance2));  //true
 
 
 /*********************Factory Class/function using closures*****************/
