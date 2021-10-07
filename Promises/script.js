@@ -16,8 +16,9 @@ function abc(){
 }
 var a = 2;
 
+
 // Scenario 1 (when function is declaration type only function var is hoisted not its definition)
-abcd();  // output  - abcd is not a function
+// abcd();  // output  - abcd is not a function
 var abcd = () => {
   console.log('abcd');
 }
@@ -25,7 +26,7 @@ var abcd = () => {
 //Scenario 3 (when using let keyword) using let it assign memory on declaration
 // no hoisting appies on it
 function abcde(){
-  console.log(xyz);
+  //console.log(xyz);
   let xyz = 'shekhar';
 }
 abcde(); // output - xyz is not defined
@@ -54,7 +55,7 @@ function a(){
   var myVar2 = 2;
   b();
 }
-a(); // output - 2
+//a(); // output - 2
 
 /*-----------------------------IIFE----------------------------------------*/
 
@@ -79,7 +80,8 @@ a(); // output - 2
 */
 
 function abc(a,b,c){
-  console.log(a+b+c+this.d);
+ // console.log(a+b+c+this.d);
+  console.log(a+b+c);
 }
 var objD = {
   d:10,
@@ -225,4 +227,87 @@ data.isLengthGreaterThan()
 
 
 /*********************Javascript Object and Prototype------------------------*/
+
+console.log('/*********************Priority of promise callback over regular callbacks------------------------*/')
+
+console.log("Test1")
+// function abcAsync(data,callback){
+// const [a,b] = data;
+//   //n no of operations already executed
+//   callback(data)
+// }
+
+// abcAsync([1,2],(response) => {
+// console.log(response[0]+ response[1]);
+// })
+
+setTimeout(() => {console.log('timer1')},4)
+
+fetch('https://reqres.in/api/users?page=2')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  ;
+console.log("Test2")
+
+
+// promise
+
+console.log('/*********************Simple Promise------------------------*/')
+
+const lotteryPromise = new Promise(function(resolve, reject){
+
+  if(Math.random() >= 0.5)
+  resolve('YOU WIN');
+  else
+  reject('YOU LOST');
+})
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err))
+
+
+
+console.log('**************************Asyn/Await program***************************')
+
+const asynFn = async function dummyFetch(){
+       
+       try{
+          const res = await fetch('https://reqres.in/api/users?page=2');
+        const data = await res.json();
+        console.log(data);
+       }
+       catch(err){
+         console.log(err.message)
+       }
+}
+
+asynFn();
+
+
+console.log('**************************Running promises parallely***************************')
+
+const getJSON =   function(url, errormsg = 'Something Went Wrong'){ 
+  return fetch(url).then(response => {
+    if(!response.ok)throw new Error(`${errormsg} (${response.status})`)
+    return response.json();
+  }) 
+
+}
+
+    const get3Countries = async function(c1,c2, c3){
+
+      try{
+
+        //promise combinators : if one promise rejects all will fail. we can use if all promises are independent.
+       const data =  await Promise.all([getJSON('https://restcountries.eu/rest/v2/name/${c1}'),
+        getJSON('https://restcountries.eu/rest/v2/name/${c2}'),
+        getJSON('https://restcountries.eu/rest/v2/name/${c3}') ])
+        console.log(data.map(d => d[0].capital));   
+      }
+      catch(err){
+        console.log(err.message)
+      }
+    }
+
+    get3Countries('india', 'portugal' ,'tanzania');
+    
 
