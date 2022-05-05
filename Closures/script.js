@@ -2,7 +2,6 @@
 
 /*--------------------------------Closures-----------------------------------*/
 
-
 /*
   Closures are the combination of functions bundled together, where inner
   function has access to the props of outer function even after outer function
@@ -22,28 +21,28 @@
 
 //  example 2
 
-function buildArray(){
+function buildArray() {
   var arr = [];
   for (var i = 0; i < 3; i++) {
-    arr.push(function(){
-        console.log(i);
-        }
-      );
+    arr.push(function () {
+      console.log(i);
+    });
   }
   return arr;
 }
 
 // to make loop available in the execution context we use iife and create its
 // own execution context
-function buildArray2(){
+function buildArray2() {
   var arr = [];
   for (var i = 0; i < 3; i++) {
-    arr.push(function(j){
-        return function(){
+    arr.push(
+      (function (j) {
+        return function () {
           console.log(j);
-        }
-      }(i)
-      );
+        };
+      })(i)
+    );
   }
   return arr;
 }
@@ -64,29 +63,41 @@ var fs2 = buildArray2();
 // fs2[1](); // 2
 // fs2[2](); // 3
 
-
 /*********************Singleton Class/function using closures*****************/
 
-var createSingletonObject = (function (){
+var createSingletonObject = (function () {
   var instance;
-  function createInstance(name){
+  function createInstance(name) {
     this.name = name;
   }
   return {
-    getInstance : function(){
-      if(!instance){
-        instance = new createInstance('name');
+    getInstance: function () {
+      if (!instance) {
+        instance = new createInstance("name");
       }
-      return instance
-    }
-  }
+      return instance;
+    },
+  };
 })();
 
 var instance1 = createSingletonObject.getInstance();
 var instance2 = createSingletonObject.getInstance();
-console.log((instance1===instance2));  //true
+console.log(instance1 === instance2); //true
 
+/*********************Closures Real world scenario- memoization*****************/
 
-/*********************Factory Class/function using closures*****************/
-
-
+function memoization() {
+  const cache = {};
+  return function (n) {
+    if (n in cache) {
+      return cache[n];
+    } else {
+      console.log("not cached");
+      cache[n] = n * n;
+      return cache[n];
+    }
+  };
+}
+const memoize = memoization();
+console.log(memoize(2)); // -> 4
+console.log(memoize(2)); //

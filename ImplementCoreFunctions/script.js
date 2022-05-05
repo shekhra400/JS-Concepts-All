@@ -10,6 +10,14 @@ Function.prototype.customBind = function (thirdObject) {
   };
 };
 
+/*
+Function.prototype.bind = function(whoIsCallingMe){
+  const self = this;
+  return function(){
+    return self.apply(whoIsCallingMe, arguments);
+  };
+}
+*/
 var foo = {
   x: 3,
 };
